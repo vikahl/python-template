@@ -1,0 +1,19 @@
+{
+  "h": "]\nA reasonable modern Python project template.\n\n- __project_name__: Human friendly name for the project.\n- __description__: Short description of the project. Added to the README and\n  package.\n- __module_name__: Project name, following specification in [PEP 508]. Will be\n  suggested based on the project name.\n- __author__: Name of the project author. Added in package metadata (setup.cfg)\n  and in some cases the license.\n- __email__: Email for the project author. Added in package metadata (setup.cfg).\n- __homepage__: Homepage for the project. Added in package metadata (setup.cfg).\n- __license__: Select a license for the project. Will add a trove classifier\n  (in setup.cfg) and a license file. If another license is needed they can be\n  replaced later.\n- __version__: Initial version.\n- __min_python__: Minimum Python version that is supported. Tox will generate\n  test environments for all newer versions. Backported modules might be used\n  for older Python versions.\n- __library__: Toggle library functions, adds a Github workflow for uploading\n  to PyPi.\n- __cli__: Toggle cli functions, adds a basic cli (based on Typer) with\n  entrypoint defined in setup.cfg.\n- __service__: Toggle service functions, adds a dockerfile and instructions on\n  compiled requirements.\n\n [Press enter to continue",
+
+  "project_name": "Python project template",
+  "description": "",
+  "module_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "author": "",
+  "email": "",
+  "homepage": "",
+  "license": ["MIT - simple and permissive",
+    "Apache - explicitly grants patent rights",
+    "GPL - ensures that code based on this is shared with the same terms"],
+  "version": "0.0.1",
+  "min_python": "3.7",
+
+  "library": ["y", "n"],
+  "cli": ["n", "y"],
+  "service": ["n", "y"]
+}

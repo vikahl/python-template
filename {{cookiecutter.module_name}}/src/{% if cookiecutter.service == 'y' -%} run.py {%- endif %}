@@ -1,0 +1,14 @@
+"""Service entrypoint for {{ cookiecutter.module_name }}.
+
+One alternative solution is to specify an entrpoint in setup.cfg and run the
+service as a cli command. This needs to be modified if the service is started
+with another command (e.g., gunicorn).
+"""
+
+import time
+
+import {{ cookiecutter.module_name }}
+
+for i in range(10):
+    print(f"{i}. Service is running.")
+    time.sleep(30)

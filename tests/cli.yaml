@@ -1,0 +1,13 @@
+default_context:
+    project_name: "Python cli"
+    description: "Example Python cli"
+    module_name: "python_cli"
+    author: ""
+    email: ""
+    homepage: ""
+    license: "Apache - explicitly grants patent rights"
+    version: "1.0.0"
+    min_python: "3.9"
+    library: "y"
+    cli: "y"
+    service: "n"

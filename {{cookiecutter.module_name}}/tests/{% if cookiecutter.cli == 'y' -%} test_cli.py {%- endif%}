@@ -1,0 +1,63 @@
+"""Tests the cli functions.
+
+There is an overlap between these tests and the one in test_lib, but these are
+more a placeholder for tests than an example of ideal test strategy.
+"""
+{% if cookiecutter.min_python | replace('3.', '') | int < 9 %}
+from __future__ import annotations  # Required for list[] syntax in <3.9
+{%- endif %}
+import subprocess
+
+import pytest
+import typer.testing
+
+import {{ cookiecutter.module_name }}
+
+# Pylint will complain that the fixture gets redefined as an input argument, so
+# ignore it for this file.
+# pylint: disable=redefined-outer-name
+
+
+@pytest.fixture()
+def runner() -> typer.testing.CliRunner:
+    """Fixture defining a test runner for the cli.
+
+    Read more about typer testing:
+    https://typer.tiangolo.com/tutorial/testing/
+
+    Read more about pytest fixtures:
+    https://docs.pytest.org/en/6.2.x/fixture.html
+    """
+    return typer.testing.CliRunner()
+
+
+def test_invoke_cli(runner: typer.testing.CliRunner) -> None:
+    """Test that the cli can be invoked without crashing."""
+    result = runner.invoke({{ cookiecutter.module_name }}.app, ["--help"])
+    assert result.exit_code == 0
+
+
+def test_invoke_as_module() -> None:
+    """Test that the cli can be invoked as a python module without crashing."""
+    result = subprocess.run(
+        ["python3", "-m", "{{ cookiecutter.module_name }}", "--help"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        encoding="utf-8",
+        check=True,
+    )
+    assert result.returncode == 0
+
+
+def test_addition(runner: typer.testing.CliRunner) -> None:
+    """Test the addition command by adding numbers."""
+    result = runner.invoke(
+        {{ cookiecutter.module_name }}.app, ["add", "--number", "1", "--number", "2", "--number", "3"]
+    )
+    assert "Result: 6" in result.stdout
+
+
+def test_hello(runner: typer.testing.CliRunner) -> None:
+    """Test saying hello to the world."""
+    result = runner.invoke({{ cookiecutter.module_name }}.app, ["hello", "World!"])
+    assert "Hello World!" in result.stdout
