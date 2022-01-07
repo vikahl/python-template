@@ -4,8 +4,8 @@ For more information about typer, read the excellent documentation at
 https://typer.tiangolo.com/
 """
 {% if cookiecutter.min_python | replace('3.', '') | int < 9 -%}
-from __future__ import annotations  # Required for list[] syntax in <3.9
-{% endif -%}
+from typing import List
+{%- endif %}
 
 import typer
 
@@ -15,7 +15,11 @@ app = typer.Typer()
 
 
 @app.command()
+{% if cookiecutter.min_python | replace('3.', '') | int < 9 -%}
+def add(number: List[float] = typer.Option([])) -> None:
+{%- else -%}
 def add(number: list[float] = typer.Option([])) -> None:
+{%- endif %}
     """Add numbers and print the sum."""
 
     typer.echo("Adding numbers")

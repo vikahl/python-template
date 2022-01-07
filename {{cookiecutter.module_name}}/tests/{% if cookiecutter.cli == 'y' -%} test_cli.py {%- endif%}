@@ -3,9 +3,6 @@
 There is an overlap between these tests and the one in test_lib, but these are
 more a placeholder for tests than an example of ideal test strategy.
 """
-{% if cookiecutter.min_python | replace('3.', '') | int < 9 %}
-from __future__ import annotations  # Required for list[] syntax in <3.9
-{%- endif %}
 import subprocess
 
 import pytest
