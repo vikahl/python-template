@@ -7,6 +7,8 @@ _Not everything needs to be the fanciest and shiniest, sometimes it is better
 to use reasonable modern tools that will not change and fit into existing
 systems._
 
+A generated example can be found at https://github.com/vikahl/python-example
+
 ## Basic ideas
 
 - Always package the Python code as a library, even if is a service that will
