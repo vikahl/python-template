@@ -1,8 +1,0 @@
-# This file is generated with pip-tools and contains pinned versions of all
-# dependencies, either directly specified in setup.cfg or transitive. This
-# makes the installation reproducible by ensuring that all dependencies matches
-# version.
-#
-# The file can updated by running:
-# 
-#     pip-compile setup.cfg

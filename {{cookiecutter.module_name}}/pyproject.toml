@@ -1,8 +1,91 @@
 [build-system]
-# >= 51 is required since "entry_points" in setup.cfg was added in this
-# version.
-requires = ["setuptools>=51.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{ cookiecutter.module_name }}"
+description = "{{ cookiecutter.description }}"
+{% if cookiecutter.author or cookiecutter.email -%}
+authors = [
+    { {% if cookiecutter.author -%} name = "{{ cookiecutter.author }}",{% endif -%}{% if cookiecutter.email -%} email = "{{ cookiecutter.email }}" {% endif -%} }
+]
+{% endif -%}
+{%- if cookiecutter.homepage %}
+urls = { homepage = "{{ cookiecutter.homepage }}" }
+{% endif -%}
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    {%- for version in (range(cookiecutter.min_python | replace('3.', '') | int, 11) | list) %}
+    "Programming Language :: Python :: 3.{{ version }}",
+    {%- endfor %}
+    {%- if cookiecutter.license == "MIT - simple and permissive" %}
+    "License :: OSI Approved :: MIT License"
+    {%- elif cookiecutter.license == "Apache - explicitly grants patent rights" %}
+    "License :: OSI Approved :: Apache Software License"
+    {%- elif cookiecutter.license == "GPL - ensures that code based on this is shared with the same terms" %}
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
+    {%- endif %}
+]
+dynamic = ["version", "readme"]
+
+requires-python = ">={{ cookiecutter.min_python }}"
+
+# Specify the packages required by the project. For libraries, the constraints
+# should be loosely defined as too narrow constraints will make it hard to
+# install the package together with other libraries and will prevent users from
+# getting security updates.
+{% if cookiecutter.service == "y" %}
+# For services, the dependencies (including transitive) should be compiled with
+# pip-tools. See requirements.txt for details.
+{% elif cookiecutter.cli == "y" -%}
+dependencies = [
+  "typer"
+]
+{% else %}
+# dependencies = [
+# "some_package"
+# ]
+{%- endif %}
+
+[project.optional-dependencies]
+# pip-compile doesn't work well with extras referencing the package itself when
+# hashes are required, as the package itself will be added to the list.
+# Therefore the dependency groups "dev" is just for developer convenience and
+# should not list dependencies itself. The compilation in tox lists all extras
+# explicitly (i.e., --extra format,lint,types,test
+dev = [ # All dev dependencies
+    "{{ cookiecutter.module_name }}[format]",
+    "{{ cookiecutter.module_name }}[lint]",
+    "{{ cookiecutter.module_name }}[test]",
+]
+format = [
+  "black",
+  "isort"
+]
+lint = [
+    "black",
+    "isort",
+    "pylint"
+]
+types = [
+    "mypy"
+]
+test = [
+    "pytest",
+    "pytest-cov"
+]
+
+{%- if cookiecutter.cli == "y" %}
+[project.scripts]
+{{ cookiecutter.module_name }} = "{{ cookiecutter.module_name }}:app"
+{%- endif %}
+
+[tool.setuptools.dynamic]
+version = {attr = "{{ cookiecutter.module_name }}.__version__"}
+readme = {file = "README.md", content-type = "text/markdown"}
 
 [tool.isort]
 # For compatibility with Black
@@ -36,7 +119,7 @@ source = ["src", ".tox/*/site-packages/"]
 show_missing = true
 
 [tool.pylint.'FORMAT']
-# Black defaults to 88 character line length, 
+# Black defaults to 88 character line length,
 max-line-length = 88
 
 [tool.pylint.'MESSAGES_CONTROL']

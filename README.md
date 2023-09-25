@@ -14,9 +14,8 @@ A generated example can be found at https://github.com/vikahl/python-example
 - Always package the Python code as a library, even if is a service that will
   not be distributed through PyPI. Doing this makes it easy to write tests or
   extend functionality in various directions.
-- Use [Setuptools] as the build system. It is a proven build system that has
-  gotten much better with the static configuration files (`setup.cfg`) and PEP
-  517 compliant builds. I do not see a reason to use another system.
+- Use [Setuptools] as the build system. It is a proven build system that
+  supports the latest standards. I do not see a reason to use another system.
 - Use Github Actions to run tests configured in tox and build and upload to
   PyPI for libraries.
 - Selection for library, cli and/or service support.
@@ -28,12 +27,13 @@ A generated example can be found at https://github.com/vikahl/python-example
   package.
 - __module_name__: Project name, following specification in [PEP 508]. Will be
   suggested based on the project name.
-- __author__: Name of the project author. Added in package metadata (setup.cfg)
+- __author__: Name of the project author. Added in package metadata
+    (pyproject.toml)
   and in some cases the license.
-- __email__: Email for the project author. Added in package metadata (setup.cfg).
-- __homepage__: Homepage for the project. Added in package metadata (setup.cfg).
+- __email__: Email for the project author. Added in package metadata (pyproject.toml).
+- __homepage__: Homepage for the project. Added in package metadata (pyproject.toml).
 - __license__: Select a license for the project. Will add a trove classifier
-  (in setup.cfg) and a license file. If another license is needed they can be
+  (in pyproject.toml) and a license file. If another license is needed they can be
   replaced later.
 - __version__: Initial version.
 - __min_python__: Minimum Python version that is supported. Tox will generate
@@ -42,20 +42,20 @@ A generated example can be found at https://github.com/vikahl/python-example
 - __library__: Toggle library functions, adds a Github workflow for uploading
   to PyPi.
 - __cli__: Toggle cli functions, adds a basic cli (based on Typer) with
-  entrypoint defined in setup.cfg.
+  entrypoint defined in pyproject.toml.
 - __service__: Toggle service functions, adds a dockerfile and instructions on
   compiled requirements.
 
 ## Linters and tools
 
 _A note about configs_: This template aims to collect all configuration in
-`pyproject.toml`, except for Setuptools which uses `setup.cfg` and tox which
-uses `tox.ini` (until tox better supports pyproject.toml).
+`pyproject.toml`, except for tox which uses `tox.ini` until tox better supports
+pyproject.toml.
 
 The linters and formatters are configured in tox and can be invoked by running
 `tox`. Github Actions ensures the same linters and formatters are run in CI.
 
-- [Setuptools]: Packaging tool. Uses `setup.cfg` for package configuration.
+- [Setuptools]: Packaging tool. Uses `pyproject.toml` for package configuration.
 - [tox](https://tox.wiki/en/latest/): Test automation framework. Run in Github
   actions and can be run locally.
 - [Black](https://github.com/psf/black): Code formatter, formats the code in a
