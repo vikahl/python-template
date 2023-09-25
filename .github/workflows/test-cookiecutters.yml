@@ -12,20 +12,21 @@ on:
 jobs:
   build-cli:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
 
       - name: Install dependencies
         run: |
-          pip install cookiecutter tox tox-gh-actions
+          pip install cookiecutter tox
 
       - run: mkdir -p .tmp/
 
@@ -39,20 +40,21 @@ jobs:
 
   build-lib:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
 
       - name: Install dependencies
         run: |
-          pip install cookiecutter tox tox-gh-actions build twine
+          pip install cookiecutter tox build twine
 
       - run: mkdir -p .tmp/
 
@@ -72,26 +74,31 @@ jobs:
 
   build-service:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version-loop }}
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
 
       - name: Install dependencies
         run: |
-          pip install cookiecutter tox tox-gh-actions
+          pip install cookiecutter tox
 
       - run: mkdir -p .tmp/
 
-      - name: Build cli
+      - name: Build service
         working-directory: .tmp
         run: cookiecutter --config-file ../tests/service.yaml --no-input ../
+
+      - name: Generate requirements
+        working-directory: .tmp/python_service
+        run: tox run -m requirements
 
       - name: Run tox
         working-directory: .tmp/python_service

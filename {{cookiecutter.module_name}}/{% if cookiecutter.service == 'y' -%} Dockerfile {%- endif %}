@@ -55,21 +55,25 @@ COPY --chown=1000:1000 requirements.txt .
 # RUN apt-get update \
 #   && apt-get install -y --no-install-recommends build-essential \
 #   && rm -rf /var/lib/apt/lists/* \
-#   && pip3 install --no-cache-dir -r requirements.txt \
+# Use --no-deps as the requirements-file already contains all dependencies (as it is a compiled file).
+# Require hashes to ensure no meddling occurs.
+#   && pip3 install --no-deps --require-hashes --no-cache-dir -r requirements.txt \
 #   && rm requirements.txt \
 #   && apt-get purge -y build-essential
 
 # ALTERNATIVE 2: Just install them
-RUN pip3 install --no-cache-dir -r requirements.txt \
+# Use --no-deps as the requirements-file already contains all dependencies (as it is a compiled file).
+# Require hashes to ensure no meddling occurs.
+RUN pip3 install --no-deps --require-hashes --no-cache-dir -r requirements.txt \
   && rm requirements.txt
 
 # Set the user
 USER {{ cookiecutter.module_name }}
 
 # Copy the run.py entrypoint.
-# One alternative solution is to specify an entrpoint in setup.cfg and run the
-# service as a cli command. This needs to be modified if the service is started
-# with another command (e.g., gunicorn).
+# One alternative solution is to specify an entrpoint in pyproject.toml and run
+# the service as a cli command. This needs to be modified if the service is
+# started with another command (e.g., gunicorn).
 COPY --chown=1000:1000 src/run.py .
 
 # Run the service. This needs to be modified if the service is started with
