@@ -14,11 +14,12 @@ authors = [
 urls = { homepage = "{{ cookiecutter.homepage }}" }
 {% endif -%}
 
+{%- if cookiecutter.library == "y" %}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    {%- for version in (range(cookiecutter.min_python | replace('3.', '') | int, 11) | list) %}
+    {%- for version in (range(cookiecutter.min_python | replace('3.', '') | int, 13) | list) %}
     "Programming Language :: Python :: 3.{{ version }}",
     {%- endfor %}
     {%- if cookiecutter.license == "MIT - simple and permissive" %}
@@ -29,8 +30,9 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
     {%- endif %}
 ]
-dynamic = ["version", "readme"]
+{%- endif %}
 
+dynamic = ["version", "readme"]
 requires-python = ">={{ cookiecutter.min_python }}"
 
 # Specify the packages required by the project. For libraries, the constraints
