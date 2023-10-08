@@ -39,8 +39,10 @@ requires-python = ">={{ cookiecutter.min_python }}"
 # getting security updates.
 {% if cookiecutter.service == "y" %}
 # For services, the dependencies (including transitive) should be compiled with
-# pip-tools. See requirements.txt for details.
-{% elif cookiecutter.cli == "y" -%}
+# pip-tools. See tox environment requirements for details.
+{%- endif %}
+
+{% if cookiecutter.cli == "y" -%}
 dependencies = [
   "typer"
 ]
