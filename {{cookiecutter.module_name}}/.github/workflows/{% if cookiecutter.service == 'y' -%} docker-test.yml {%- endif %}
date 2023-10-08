@@ -1,0 +1,36 @@
+{% raw -%}
+# This workflow will build the Docker image and test it by starting it.
+name: Build and test Docker image
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  TEST_TAG: user/app:test
+
+jobs:
+  build-and-test-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # This step uses the `docker/build-push-action` action to build the
+      # image, _without_ pushing it to a repository.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          push: false
+          tags: ${{ env.TEST_TAG }}
+
+      # This needs to be updated if the image does not finish after a certain
+      # peridod, e.g., if it creates an API.
+      - name: Smoke test the image
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+{%- endraw %}
