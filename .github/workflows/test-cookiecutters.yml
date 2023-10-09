@@ -103,3 +103,13 @@ jobs:
       - name: Run tox
         working-directory: .tmp/python_service
         run: tox
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .tmp/python_service
+          push: false
+          tags: user/app:test
+
+      - name: Smoke test the image
+        run: docker run --rm user/app:test
