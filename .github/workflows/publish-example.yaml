@@ -1,0 +1,76 @@
+name: Publish example to python-example
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  publish-example:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
+            3.12
+
+      - name: Install dependencies
+        run: pip install cookiecutter tox
+
+      - name: Create working directory
+        run: mkdir -p .tmp
+
+      - name: Check out the python-example repo
+        uses: actions/checkout@v4
+        with:
+          repository: vikahl/python-example
+          ref: main
+          path: .tmp/python-example
+
+      - name: Empty the python-example repo
+        run: |
+          rm -rf .tmp/python-example/*
+          tree .tmp/
+
+      - name: Build example from cookiecutter
+        working-directory: .tmp
+        run: |
+          cookiecutter --config-file $GITHUB_WORKSPACE/config/python-example.yaml \
+            --no-input $GITHUB_WORKSPACE
+
+      - name: Move all files from cookiecutter to the python-example repo
+        working-directory: .tmp
+        run: mv python_project_example/* python-example/
+
+      - name: Generate requirements
+        working-directory: .tmp/python-example
+        run: |
+          tox run -m requirements
+
+      - name: Configure the python-example git repo
+        working-directory: .tmp/python-example
+        run: |
+          git config user.name "Github actions on vikahl/python-template"
+          git config user.email "<>"
+          git remote add python-example "https://vikahl:${{ secrets.PYTHON_EXAMPLE_TOKEN }}@github.com/vikahl/python-example.git"
+
+      - name: Unset header that seems to cause auth issues
+        working-directory: .tmp/python-example
+        run: git config --unset-all http.https://github.com/.extraheader
+
+      - name: Check out a new branch, commit and push
+        working-directory: .tmp/python-example
+        run: |
+          git add .
+          git commit -m "Sync from vikahl/python-template $GITHUB_SHA"
+          git push python-example main
