@@ -1,8 +1,8 @@
 default_context:
     h: ""
-    project_name: "Python project example"
+    project_name: "Python example"
     description: "Example project generated from vikahl/python-template"
-    module_name: "python_project_example"
+    module_name: "python_example"
     author: "Viktor Rimark"
     email: "viktor@example.com"
     homepage: "https://blog.rxbx.se"

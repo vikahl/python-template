@@ -3,6 +3,8 @@ name: Publish example to python-example
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,11 +37,11 @@ jobs:
         with:
           repository: vikahl/python-example
           ref: main
-          path: .tmp/python-example
+          path: .tmp/python-example-repo
 
       - name: Empty the python-example repo
         run: |
-          rm -rf .tmp/python-example/*
+          rm -rf .tmp/python-example-repo/*
           tree .tmp/
 
       - name: Build example from cookiecutter
@@ -50,27 +52,33 @@ jobs:
 
       - name: Move all files from cookiecutter to the python-example repo
         working-directory: .tmp
-        run: mv python_project_example/* python-example/
+        run: mv python_example/* python-example-repo/
 
       - name: Generate requirements
-        working-directory: .tmp/python-example
+        working-directory: .tmp/python-example-repo
         run: |
           tox run -m requirements
 
       - name: Configure the python-example git repo
-        working-directory: .tmp/python-example
+        working-directory: .tmp/python-example-repo
         run: |
           git config user.name "Github actions on vikahl/python-template"
           git config user.email "<>"
-          git remote add python-example "https://vikahl:${{ secrets.PYTHON_EXAMPLE_TOKEN }}@github.com/vikahl/python-example.git"
+          git remote add python-example \
+            "https://vikahl:${{ secrets.PYTHON_EXAMPLE_TOKEN
+            }}@github.com/vikahl/python-example.git"
 
       - name: Unset header that seems to cause auth issues
-        working-directory: .tmp/python-example
+        working-directory: .tmp/python-example-repo
         run: git config --unset-all http.https://github.com/.extraheader
 
-      - name: Check out a new branch, commit and push
-        working-directory: .tmp/python-example
+      - name: Create a new commit
+        working-directory: .tmp/python-example-repo
         run: |
           git add .
           git commit -m "Sync from vikahl/python-template $GITHUB_SHA"
-          git push python-example main
+
+      - name: Commit (only on main builds)
+        if: github.ref == 'refs/heads/main'
+        working-directory: .tmp/python-example-repo
+        run: git push python-example main
