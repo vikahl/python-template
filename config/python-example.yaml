@@ -12,3 +12,4 @@ default_context:
     library: "y"
     cli: "y"
     service: "y"
+    architecture: "amd64"

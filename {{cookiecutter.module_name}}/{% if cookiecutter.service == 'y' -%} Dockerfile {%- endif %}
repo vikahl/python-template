@@ -1,12 +1,15 @@
 # Example Docker image that uses a multistage build to first build the a
 # library of the service.
 
-FROM python:{{ cookiecutter.min_python }}-slim AS builder
+FROM python:{{ cookiecutter._base_images[cookiecutter.architecture][cookiecutter.min_python] }} AS builder
 # It is recommended to use sha256 hash to ensure exact version, as tags can be
-# moved. For example:
-# FROM python:3.8-slim@sha256:a7deebfd654d0158999e9ae9a78ce4a9c7090816a2d1600d254fef8b7fd74cac
-# The tag ("slim") is ignored when the hash ("sha256:…") is used but it makes
-# it easier for humans to read which image is used.
+# moved. The tag ("slim") is ignored by Docker when the hash ("sha256:…") is
+# used but it allows Dependabot to skip update across minor versions (e.g.,
+# update from 3.8 to 3.10) and makes it easier for humans to read which image
+# is used.
+#
+# If you want dependabot to update from e.g., 3.8 to 3.10, update the config in
+# .github/dependabot.yaml
 #
 # It is however hard to maintain and update this in the template, which is why
 # it specifies with tags.
@@ -27,9 +30,8 @@ RUN python3 -m build --wheel .
 
 ################################################################################
 # Start the runtime image.
-# It is recommended to use sha256 here as well (see comment at builder FROM
-# statement).
-FROM python:{{ cookiecutter.min_python }}-slim AS runtime
+# See the notes at builder FROM statement about sha256 hashes and automatic updates.
+FROM python:{{ cookiecutter._base_images[cookiecutter.architecture][cookiecutter.min_python] }} AS runtime
 
 # Create a user and group to not run everything as root.
 RUN groupadd --gid 1000 --system {{ cookiecutter.module_name }} && \
@@ -78,4 +80,3 @@ COPY --chown=1000:1000 src/run.py .
 
 # Run the service. This needs to be modified if the service is started with
 # another command (e.g., gunicorn).
-CMD python3 run.py
