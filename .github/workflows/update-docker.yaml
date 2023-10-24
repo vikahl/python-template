@@ -1,0 +1,43 @@
+name: Update Docker base image hashes
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+jobs:
+  update-docker-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run the update-docker script
+        run: |
+          python3 scripts/update-docker.py
+
+      - name: Configure the repository
+        run: |
+          git config user.name "Github actions bot"
+          git config user.email "<>"
+
+      - name: Create a branch, commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PYTHON_TEMPLATE_TOKEN }}
+        run: |
+          git checkout -b "base-image-$(date +%s)"
+          git commit cookiecutter.json -m "Update Docker base image references" \
+            -m "Update Docker base images to latest versions from Docker Hub."
+          git push origin HEAD
+          gh pr create --title "Update Docker base image references" \
+            --body "Update Docker base images to latest versions from Docker Hub."
+          gh pr merge --rebase --auto

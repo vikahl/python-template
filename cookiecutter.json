@@ -1,19 +1,45 @@
 {
-  "h": "]\nA reasonable modern Python project template.\n\n- __project_name__: Human friendly name for the project.\n- __description__: Short description of the project. Added to the README and\n  package.\n- __module_name__: Project name, following specification in [PEP 508]. Will be\n  suggested based on the project name.\n- __author__: Name of the project author. Added in package metadata (pyproject.toml)\n  and in some cases the license.\n- __email__: Email for the project author. Added in package metadata (pyproject.toml).\n- __homepage__: Homepage for the project. Added in package metadata (pyproject.toml).\n- __license__: Select a license for the project. Will add a trove classifier\n  (in pyproject.toml) and a license file. If another license is needed they can be\n  replaced later.\n- __version__: Initial version.\n- __min_python__: Minimum Python version that is supported. Tox will generate\n  test environments for all newer versions. Backported modules might be used\n  for older Python versions.\n- __library__: Toggle library functions, adds a Github workflow for uploading\n  to PyPi.\n- __cli__: Toggle cli functions, adds a basic cli (based on Typer) with\n  entrypoint defined in pyproject.toml.\n- __service__: Toggle service functions, adds a dockerfile and instructions on\n  compiled requirements.\n\n [Press enter to continue",
-
+  "h": "]\nA reasonable modern Python project template.\n\n- __project_name__: Human friendly name for the project.\n- __description__: Short description of the project. Added to the README and\n  package.\n- __module_name__: Project name, following specification in [PEP 508]. Will be\n  suggested based on the project name.\n- __author__: Name of the project author. Added in package metadata (pyproject.toml)\n  and in some cases the license.\n- __email__: Email for the project author. Added in package metadata (pyproject.toml).\n- __homepage__: Homepage for the project. Added in package metadata (pyproject.toml).\n- __license__: Select a license for the project. Will add a trove classifier\n  (in pyproject.toml) and a license file. If another license is needed they can be\n  replaced later.\n- __version__: Initial version.\n- __min_python__: Minimum Python version that is supported. Tox will generate\n  test environments for all newer versions. Backported modules might be used\n  for older Python versions.\n- __library__: Toggle library functions, adds a Github workflow for uploading\n  to PyPi.\n- __cli__: Toggle cli functions, adds a basic cli (based on Typer) with\n  entrypoint defined in pyproject.toml.\n- __service__: Toggle service functions, adds a dockerfile and instructions on\n  compiled requirements.\n- __architecture__: Set the architecture for the Dockerfile.\n\n [Press enter to continue",
   "project_name": "Python project template",
   "description": "",
   "module_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "author": "",
   "email": "",
   "homepage": "",
-  "license": ["MIT - simple and permissive",
+  "license": [
+    "MIT - simple and permissive",
     "Apache - explicitly grants patent rights",
-    "GPL - ensures that code based on this is shared with the same terms"],
+    "GPL - ensures that code based on this is shared with the same terms"
+  ],
   "version": "0.0.1",
   "min_python": "3.8",
-
-  "library": ["y", "n"],
-  "cli": ["n", "y"],
-  "service": ["n", "y"]
+  "library": [
+    "y",
+    "n"
+  ],
+  "cli": [
+    "n",
+    "y"
+  ],
+  "service": [
+    "n",
+    "y"
+  ],
+  "architecture": ["amd64", "arm64"],
+  "_base_images": {
+    "amd64": {
+      "3.10": "3.10-slim@sha256:1d517e04d033a04d86f7de57bf41cae166ca362b37a1cb229e326bc1d754db55",
+      "3.11": "3.11-slim@sha256:e932b9a0f25c306d542fc69133d24b872a6a264810e300b553e7ecd027599ca5",
+      "3.12": "3.12-slim@sha256:dc1395bbb3dd97d237f37f7fb324cd1801a40c82635e5b0100a057fb7cc2d227",
+      "3.8": "3.8-slim@sha256:f8a12edddd4fb9c9fd38cd7147c5861a596dee5a4852b6bded3d1d6e2c8987bd",
+      "3.9": "3.9-slim@sha256:e05be7fa5b887748df8b7ee9ee26201b4c20cf741cccae0393ee744c0b185401"
+    },
+    "arm64": {
+      "3.10": "3.10-slim@sha256:1d12eaa626fc3387d0e952eb6e7d3ab5f518f02bb75d14a3089ff4bef19970a1",
+      "3.11": "3.11-slim@sha256:c10d559a8bc6f2d7ae3b148b6819a5fb54ae871109fbc8c7947a1dbcc1c7f773",
+      "3.12": "3.12-slim@sha256:682ef9a76d792f5a1c6498a66039a5df688392134ceace2195339e806d08c058",
+      "3.8": "3.8-slim@sha256:5bbd3a73570e9f88f4de82965abb7700fa893c7050d28b46d65c19e20ca5aea1",
+      "3.9": "3.9-slim@sha256:abce435c53602940dc8f855d1954ac6820145ca42cff06c7d8dbde26bac0a8f9"
+    }
+  }
 }

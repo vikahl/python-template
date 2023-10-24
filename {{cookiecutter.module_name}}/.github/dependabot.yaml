@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+    ignore:
+      # Ignore minor updates in images, e.g., do not update from 3.8 to 3.12.
+      # If you want this behaviour, simply remove this ignore rule.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
