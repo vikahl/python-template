@@ -76,7 +76,8 @@ jobs:
         working-directory: .tmp/python-example-repo
         run: |
           git add .
-          git commit -m "Sync from vikahl/python-template $GITHUB_SHA"
+          # Only commit if there are changes
+          git diff-index --quiet HEAD || git commit -m "Sync from vikahl/python-template $GITHUB_SHA"
 
       - name: Commit (only on main builds)
         if: github.ref == 'refs/heads/main'
