@@ -10,3 +10,8 @@ updates:
       # If you want this behaviour, simply remove this ignore rule.
       - dependency-name: "*"
         update-types: ["version-update:semver-minor"]
+        
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
