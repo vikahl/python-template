@@ -27,8 +27,7 @@ A generated example can be found at https://github.com/vikahl/python-example
   package.
 - __module_name__: Project name, following specification in [PEP 508]. Will be
   suggested based on the project name.
-- __author__: Name of the project author. Added in package metadata
-    (pyproject.toml)
+- __author__: Name of the project author. Added in package metadata (pyproject.toml)
   and in some cases the license.
 - __email__: Email for the project author. Added in package metadata (pyproject.toml).
 - __homepage__: Homepage for the project. Added in package metadata (pyproject.toml).
@@ -45,6 +44,7 @@ A generated example can be found at https://github.com/vikahl/python-example
   entrypoint defined in pyproject.toml.
 - __service__: Toggle service functions, adds a dockerfile and instructions on
   compiled requirements.
+- __architecture__: Set the architecture for the Dockerfile.
 
 ## Linters and tools
 
