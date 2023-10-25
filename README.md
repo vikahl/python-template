@@ -17,7 +17,8 @@ A generated example can be found at https://github.com/vikahl/python-example
 - Use [Setuptools] as the build system. It is a proven build system that
   supports the latest standards. I do not see a reason to use another system.
 - Use Github Actions to run tests configured in tox and build and upload to
-  PyPI for libraries.
+  PyPI for libraries. Authentication is done using [trusted
+  publishers](https://docs.pypi.org/trusted-publishers/).
 - Selection for library, cli and/or service support.
 
 ## Template settings

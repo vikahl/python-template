@@ -1,9 +1,11 @@
-{% raw -%}
 # This workflow will build and upload packages to PyPI when a new release is created.
 # It is based on the "standard" Github workflow and uses twine to do the upload.
-# Read more about the Twine Github Action at https://github.com/pypa/gh-action-pypi-publish
-#
-# Note that a PYPI_API_TOKEN secret needs to be added to Github.
+# Read more about the Twine Github Action
+# https://github.com/pypa/gh-action-pypi-publish
+
+# Authentication is done using trusted publishers. You need to add a publisher
+# for your account at PyPI.
+# Read more: https://docs.pypi.org/trusted-publishers/
 
 name: Upload package to PyPI
 
@@ -15,6 +17,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      # Required for publishing with trusted publisher
+      id-token: write
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
@@ -22,9 +28,6 @@ jobs:
       with:
         python-version: '3.x'
 
-      # To get completely reproducible builds these dependencies should be
-      # pinned. For most smaller projects it should be ok to leave them
-      # unpinend as they are stable projects.
     - name: Install dependencies
       run: |
         pip install build
@@ -34,7 +37,3 @@ jobs:
 
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-{%- endraw %}

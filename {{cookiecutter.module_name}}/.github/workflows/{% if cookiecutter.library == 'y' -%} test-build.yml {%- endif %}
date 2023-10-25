@@ -18,9 +18,6 @@ jobs:
       with:
         python-version: '3.x'
 
-      # To get completely reproducible builds these dependencies should be
-      # pinned. For most smaller projects it should be ok to leave them
-      # unpinend as they are stable projects.
     - name: Install dependencies
       run: |
         pip install build twine
