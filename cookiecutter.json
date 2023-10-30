@@ -25,7 +25,10 @@
     "n",
     "y"
   ],
-  "architecture": ["amd64", "arm64"],
+  "architecture": [
+    "amd64",
+    "arm64"
+  ],
   "_base_images": {
     "amd64": {
       "3.10": "3.10-slim@sha256:1d517e04d033a04d86f7de57bf41cae166ca362b37a1cb229e326bc1d754db55",
