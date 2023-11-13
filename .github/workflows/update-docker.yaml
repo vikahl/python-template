@@ -35,9 +35,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PYTHON_TEMPLATE_TOKEN }}
         run: |
           git checkout -b "base-image-$(date +%s)"
-          git commit cookiecutter.json -m "Update Docker base image references" \
-            -m "Update Docker base images to latest versions from Docker Hub."
-          git push origin HEAD
-          gh pr create --title "Update Docker base image references" \
-            --body "Update Docker base images to latest versions from Docker Hub."
-          gh pr merge --rebase --auto
+          git add cookiecutter.json
+          # Only commit if there are changes
+          git diff-index --quiet HEAD || \
+            ( git commit -m "Update Docker base image references" \
+            -m "Update Docker base images to latest versions from Docker Hub." \
+            && git push origin HEAD \
+            && gh pr create --title "Update Docker base image references" \
+            --body \
+            "Update Docker base images to latest versions from Docker Hub." \
+            && gh pr merge --rebase --auto )
