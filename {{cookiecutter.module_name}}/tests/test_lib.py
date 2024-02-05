@@ -3,6 +3,7 @@
 To learn more about (non-trivial) tests, read Python testing with pytest:
 https://pragprog.com/titles/bopytest2/
 """
+
 import {{ cookiecutter.module_name }}
 
 
