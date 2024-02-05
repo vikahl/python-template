@@ -3,6 +3,7 @@
 There is an overlap between these tests and the one in test_lib, but these are
 more a placeholder for tests than an example of ideal test strategy.
 """
+
 import subprocess
 
 import pytest

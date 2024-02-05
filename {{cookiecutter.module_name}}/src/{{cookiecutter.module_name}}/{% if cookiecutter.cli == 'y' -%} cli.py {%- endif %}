@@ -3,6 +3,7 @@
 For more information about typer, read the excellent documentation at
 https://typer.tiangolo.com/
 """
+
 {% if cookiecutter.min_python | replace('3.', '') | int < 9 -%}
 from typing import List
 {%- endif %}
