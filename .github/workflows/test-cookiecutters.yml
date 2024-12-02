@@ -105,7 +105,7 @@ jobs:
         run: tox
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6.9.0
+        uses: docker/build-push-action@v6.10.0
         with:
           context: .tmp/python_service
           push: false
